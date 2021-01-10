@@ -62,9 +62,9 @@ pipeline {
           withCredentials([ string(credentialsId: 'kubeconfig', variable: 'kubeconfig') ]) {
 		  byte[] decoded = kubeconfig.decodeBase64()
 	          println new String(decoded)
-		  def config=new String(decoded)
+		  def config = new String(decoded)
          //   print 'kubeconfig=' + kubeconfig
-		  sh 'echo  $config > configfile'
+		  sh "echo  $config > configfile"
 		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=configfile"
           }
         }
