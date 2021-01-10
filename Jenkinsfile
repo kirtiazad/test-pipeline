@@ -27,7 +27,7 @@ pipeline {
       steps{
 	container('docker') {
 		script{
-	docker.withRegistry(  , 'docker') {   	
+	docker.withRegistry('https://registry.hub.docker.com'  , 'docker') {   	
 	  def myImg = docker.image('kirtiazad11111/test')
 		 sh "docker build  -t ${myImg.imageName()}:${env.BUILD_NUMBER} ."
   			// or docker.build, etc.
