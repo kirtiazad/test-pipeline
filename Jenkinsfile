@@ -60,9 +60,11 @@ pipeline {
 		    container('kubectl') {
             script {
           withCredentials([ string(credentialsId: 'kubeconfig', variable: 'kubeconfig') ]) {
-            print 'kubeconfig=' + kubeconfig
-		  sh 'echo  $kubeconfig | base64 > kubeconfig'
-		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=kubeconfig"
+		  byte[] decoded = kubeconfig.decodeBase64()
+	          println new String(decoded)
+         //   print 'kubeconfig=' + kubeconfig
+	//	  sh 'echo  $kubeconfig | base64 > kubeconfig'
+	//	  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=kubeconfig"
           }
         }
 		    }
