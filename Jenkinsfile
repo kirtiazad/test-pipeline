@@ -64,8 +64,8 @@ pipeline {
 	          println new String(decoded)
 		  config=new String(decoded)
          //   print 'kubeconfig=' + kubeconfig
-		  sh 'echo  $config > kubeconfig'
-		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=kubeconfig"
+		  sh 'echo  $config > configfile'
+		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=configfile"
           }
         }
 		    }
