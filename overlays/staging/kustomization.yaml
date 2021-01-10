@@ -1,4 +1,6 @@
 bases:
 - ./../../base
 namePrefix: staging-
+namespace: demo
+
 
