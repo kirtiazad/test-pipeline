@@ -12,7 +12,7 @@ pipeline {
 	
 	      stage('Deploy Dev') {
             steps {
-		    container('kubectl') {
+		    container('maven') {
             script {
           withCredentials([ string(credentialsId: 'kubeconfig', variable: 'kubeconfig') ]) {
 		  byte[] decoded = kubeconfig.decodeBase64()
