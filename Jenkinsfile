@@ -22,7 +22,7 @@ pipeline {
 		  def newFile = new File("/tmp/configfile")
 		  newFile.write(config)
 	  }
-		   sh 'echo "hello"
+		   sh 'echo "hello"'
 		  sh 'cat /tmp/config'
          //   print 'kubeconfig=' + kubeconfig
 		 // sh "echo  $config > configfile"
