@@ -23,7 +23,7 @@ pipeline {
 		  newFile.write(config)
 	  }
 		   sh 'echo "hello"'
-		  sh 'cat /tmp/config'
+		  sh 'cat /tmp/configfile'
          //   print 'kubeconfig=' + kubeconfig
 		 // sh "echo  $config > configfile"
 		//  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=/tmp/configfile"
