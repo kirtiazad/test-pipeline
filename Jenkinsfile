@@ -12,7 +12,7 @@ pipeline {
 	
 	      stage('Deploy Dev') {
             steps {
-		    container('kubectl') {
+		    container('maven') {
             script {
           withCredentials([ string(credentialsId: 'kubeconfig', variable: 'kubeconfig') ]) {
 		  byte[] decoded = kubeconfig.decodeBase64()
@@ -24,6 +24,7 @@ pipeline {
 		//  sh "echo $config > configfile"
 		//  sh "cat configfile"
              //    print 'kubeconfig=' + kubeconfig
+		  sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" && chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl'
 		  sh "echo  $kubeconfig > configfile"
 		  sh "cat configfile | sed 's/ //g' > configfile"
 		  sh "base64 -d configfile > demo"
