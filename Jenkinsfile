@@ -1,5 +1,6 @@
 pipeline {
   agent {
+	  def app  
     kubernetes {
       label 'promo-app'  // all your pods will be named with this prefix, followed by a unique id
       idleMinutes 5  // how long the pod will live after no jobs have run on it
@@ -8,7 +9,7 @@ pipeline {
     }
   }
   stages {
-	 def app  
+	
     stage('Build') {
       steps {  // no container directive is needed as the maven container is the default
         sh "mvn clean package"   
