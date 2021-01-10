@@ -32,22 +32,6 @@ pipeline {
         sh "mvn clean package"  
     }
   }
-    stage('string (secret text)') {
-      steps {
-        script {
-          withCredentials([
-            string(
-              credentialsId: 'kubeconfig',
-              variable: 'kubeconfig')
-          ]) {
-            print 'kubeconfig=' + kubeconfig
-		  sh "echo $kubeconfig > demofile"
-		  sh "cat demofile"
-	   print kubeconfig
-          }
-        }
-      }
-    }
     stage('Push Image') {
       steps{
 	container('docker') {
@@ -64,10 +48,26 @@ pipeline {
       }
     }
 	            
-      stage('Deploy Dev') {
+      stage('Approval Dev') {
                agent none
             steps {
                 input "Does the Dev environment look ok?"
+            }
+        }
+  }
+      stage('Approval Dev') {
+               container('kubectl')
+	      
+            steps {
+		    
+            script {
+          withCredentials([ string(credentialsId: 'kubeconfig', variable: 'kubeconfig') ]) {
+            print 'kubeconfig=' + kubeconfig
+		  sh "echo $kubeconfig > demofile"
+		  sh "cat demofile"
+		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=demofile"
+          }
+        }
             }
         }
   }
