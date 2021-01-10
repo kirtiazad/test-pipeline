@@ -10,34 +10,6 @@ pipeline {
   }
   stages {
 	
-	      stage('Deploy Dev') {
-            steps {
-		    container('maven') {
-            script {
-          withCredentials([ string(credentialsId: 'kubeconfig', variable: 'kubeconfig') ]) {
-		  //byte[] decoded = kubeconfig.decodeBase64()
-	        //  println new String(decoded)
-		//  def config = new String(decoded)
-		  
-		  //def newFile = new File("configfile")
-		  //newFile.write(config)
-		//  sh "echo $config > configfile"
-		//  sh "cat configfile"
-                 // print 'kubeconfig=' + kubeconfig
-		  sh "echo  $kubeconfig > configfile"
-		  sh 'cat configfile | sed "s/ //g" | base64 --decode > config'
-		//  sh "base64 -d abc > demo"
-		//  sh "cat demo"
-		  sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" && chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl'
-		  sh "kubectl run test --image=nginx  --kubeconfig=demo"
-		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=demo"
-          
-        }
-	    }
-		    }
-            
-        }
-  }
     stage('Compile') {
       steps {  // no container directive is needed as the maven container is the default
         sh "mvn clean compile"   
@@ -82,8 +54,23 @@ pipeline {
  //               input "Does the Dev environment look ok?"
   //          }
  //       }
+  
+		      stage('Deploy Dev') {
+            steps {
+		    container('maven') {
+            script {
+          withCredentials([ string(credentialsId: 'kubeconfig', variable: 'kubeconfig') ]) {
+		  sh 'echo  $kubeconfig | sed "s/ //g" | base64 --decode > config'
+		  sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" && chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl'
+		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=config"
+          
+        }
+	    }
+		    }
+            
+        }
   }
-	
+  }
       post {
         always {
             junit '**/target/surefire-reports/*.xml'
