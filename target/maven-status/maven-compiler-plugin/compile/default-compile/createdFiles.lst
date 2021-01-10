@@ -1,0 +1,6 @@
+com\systelab\patient\controller\PatientController.class
+com\systelab\patient\model\Patient.class
+com\systelab\patient\model\PhoneNumber.class
+com\systelab\patient\service\PatientService.class
+com\systelab\patient\model\PhoneNumbers.class
+com\systelab\infrastructure\AppLifecycleBean.class

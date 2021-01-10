@@ -1,0 +1,11 @@
+-------------------------------------------------------------------------------
+Test set: com.systelab.patient.controller.PatientControllerTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 14.091 s <<< FAILURE! - in com.systelab.patient.controller.PatientControllerTest
+testHelloEndpoint  Time elapsed: 4.191 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <500>.
+
+	at com.systelab.patient.controller.PatientControllerTest.testHelloEndpoint(PatientControllerTest.java:17)
+
