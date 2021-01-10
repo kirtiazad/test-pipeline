@@ -68,7 +68,7 @@ pipeline {
 		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=demofile"
           }
         }
-            }
+            
         }
   }
 	
