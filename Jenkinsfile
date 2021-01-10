@@ -41,7 +41,7 @@ pipeline {
               variable: 'kubeconfig')
           ]) {
             print 'kubeconfig=' + kubeconfig
-            print 'kubeconfig.collect { it }=' + kubeconfig.collect { it }
+	   print kubeconfig
           }
         }
       }
