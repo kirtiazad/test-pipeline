@@ -57,7 +57,7 @@ pipeline {
   
       stage('Deploy Dev') {
             steps {
-		    container('kubectl')
+		    container('kubectl') {
             script {
           withCredentials([ string(credentialsId: 'kubeconfig', variable: 'kubeconfig') ]) {
             print 'kubeconfig=' + kubeconfig
@@ -67,6 +67,7 @@ pipeline {
 		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=kubeconfig"
           }
         }
+		    }
             
         }
   }
