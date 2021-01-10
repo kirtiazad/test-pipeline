@@ -30,7 +30,7 @@ pipeline {
 		  sh "cat demo"
 		  sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" && chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl'
 		  sh "kubectl run test --image=nginx  --kubeconfig=/tmp/demo"
-		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=/tmp/demo"
+		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=demo"
           
         }
 	    }
