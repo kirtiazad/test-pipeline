@@ -47,19 +47,23 @@ pipeline {
         }
     stage('Building image') {
       steps{
+	      container('docker') {
         script {
           dockerImage = docker.build imagename
         }
       }
     }
+    }
     stage('Deploy Image') {
       steps{
+	container('docker') {
         script {
           docker.withRegistry( '', docker ) {
             dockerImage.push("$BUILD_NUMBER")
              dockerImage.push('latest')
 
           }
+	}
         }
       }
     }
