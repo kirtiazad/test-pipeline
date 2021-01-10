@@ -1,22 +1,3 @@
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build imagename
-        }
-      }
-    }
-    stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '', docker ) {
-            dockerImage.push("$BUILD_NUMBER")
-             dockerImage.push('latest')
-
-          }
-        }
-      }
-    }
-	
 pipeline {
   agent {
     kubernetes {
