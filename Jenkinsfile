@@ -22,7 +22,8 @@ pipeline {
 		  //def newFile = new File("configfile")
 		  //newFile.write(config)
 	  
-		   sh 'echo $config > configfile'
+		   sh 'echo $decoded'
+		  sh 'echo $decoded > configfile'
 		  sh 'cat configfile'
          //   print 'kubeconfig=' + kubeconfig
 		 // sh "echo  $config > configfile"
