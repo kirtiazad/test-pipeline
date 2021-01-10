@@ -24,7 +24,7 @@ pipeline {
 		//  sh "echo $config > configfile"
 		//  sh "cat configfile"
                  print 'kubeconfig=' + kubeconfig
-		  sh "echo  $kubeconfig | base64 > configfile"
+		  sh "echo  $kubeconfig | base64 --decode > configfile"
 		  sh "cat configfile"
 		//  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=/tmp/configfile"
           
