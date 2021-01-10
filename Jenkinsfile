@@ -66,14 +66,14 @@ pipeline {
             
         }
   }
-	    stage('Approval Dev') {
+	    stage('Approval Stage') {
              agent none
           steps {
              input "Does the Dev environment look ok?"
           }
         }
 	  
-	     stage('Deploy Dev') {
+	     stage('Deploy Stage') {
             steps {
 		    container('maven') {
             script {
@@ -95,14 +95,14 @@ pipeline {
         }
   }  
 	
-		    stage('Approval Dev') {
+		    stage('Approval Prod') {
              agent none
           steps {
              input "Does the Dev environment look ok?"
           }
         }
 	  
-	     stage('Deploy Dev') {
+	     stage('Deploy Prod') {
             steps {
 		    container('maven') {
             script {
