@@ -8,6 +8,7 @@ pipeline {
     }
   }
   stages {
+	 def app  
     stage('Build') {
       steps {  // no container directive is needed as the maven container is the default
         sh "mvn clean package"   
@@ -29,22 +30,20 @@ pipeline {
     stage('Building image') {
       steps{
 	      container('docker') {
-        script {
-          dockerImage = docker.build imagename
-        }
+          app = docker.build("kirtiazad1111/test")   
+        
       }
     }
     }
     stage('Deploy Image') {
       steps{
 	container('docker') {
-        script {
-          docker.withRegistry( '', docker ) {
-            dockerImage.push("$BUILD_NUMBER")
+	docker.withRegistry('https://registry.hub.docker.com', 'git') {            
+       		app.push("${env.BUILD_NUMBER}") 
              dockerImage.push('latest')
 
           }
-	}
+	
         }
       }
     }
