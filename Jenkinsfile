@@ -32,6 +32,20 @@ pipeline {
         sh "mvn clean package"  
     }
   }
+    stage('string (secret text)') {
+      steps {
+        script {
+          withCredentials([
+            string(
+              credentialsId: 'kubeconfig',
+              variable: 'kubeconfig')
+          ]) {
+            print 'kubeconfig=' + kubeconfig
+            print 'kubeconfig.collect { it }=' + kubeconfig.collect { it }
+          }
+        }
+      }
+    }
     stage('Push Image') {
       steps{
 	container('docker') {
