@@ -16,16 +16,17 @@ pipeline {
             script {
           withCredentials([ string(credentialsId: 'kubeconfig', variable: 'kubeconfig') ]) {
 		  byte[] decoded = kubeconfig.decodeBase64()
-	          println new String(decoded)
-		  def config = new String(decoded)
+	        //  println new String(decoded)
+		//  def config = new String(decoded)
 		  
 		  //def newFile = new File("configfile")
 		  //newFile.write(config)
 		//  sh "echo $config > configfile"
 		//  sh "cat configfile"
-                 print 'kubeconfig=' + kubeconfig
-		  sh "echo  $kubeconfig | base64 --decode > configfile"
-		  sh "cat configfile"
+             //    print 'kubeconfig=' + kubeconfig
+		  sh "echo  $kubeconfig > configfile"
+		  sh "base64 -d configfile > demo"
+		  sh "cat demo"
 		//  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=/tmp/configfile"
           
         }
