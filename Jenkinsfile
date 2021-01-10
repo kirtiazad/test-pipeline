@@ -19,16 +19,17 @@ pipeline {
 	          println new String(decoded)
 		  def config = new String(decoded)
 		  
-		  def newFile = new File("configfile")
-		  newFile.write(config)
-	  }
-		   sh 'echo "hello"'
+		  //def newFile = new File("configfile")
+		  //newFile.write(config)
+	  
+		   sh 'echo $config > configfile'
 		  sh 'cat configfile'
          //   print 'kubeconfig=' + kubeconfig
 		 // sh "echo  $config > configfile"
 		//  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=/tmp/configfile"
           
         }
+	    }
 		    }
             
         }
