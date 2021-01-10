@@ -55,7 +55,7 @@ pipeline {
             }
         }
   }
-      stage('Approval Dev') {
+      stage('Deploy Dev') {
                container('kubectl')
 	      
             steps {
