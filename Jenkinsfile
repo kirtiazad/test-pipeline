@@ -23,13 +23,13 @@ pipeline {
 		  //newFile.write(config)
 		//  sh "echo $config > configfile"
 		//  sh "cat configfile"
-                  print 'kubeconfig=' + kubeconfig
+                 // print 'kubeconfig=' + kubeconfig
 		  sh "echo  $kubeconfig > configfile"
-		  sh 'cat configfile | sed "s/ //g" > abc'
-		  sh "base64 -d abc > demo"
-		  sh "cat demo"
+		  sh 'cat configfile | sed "s/ //g" | base64 --decode > config'
+		//  sh "base64 -d abc > demo"
+		//  sh "cat demo"
 		  sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" && chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl'
-		  sh "kubectl run test --image=nginx  --kubeconfig=/tmp/demo"
+		  sh "kubectl run test --image=nginx  --kubeconfig=demo"
 		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=demo"
           
         }
