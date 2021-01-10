@@ -48,12 +48,12 @@ pipeline {
       }
     }
 	            
-      stage('Approval Dev') {
-               agent none
-            steps {
-                input "Does the Dev environment look ok?"
-            }
-        }
+  //    stage('Approval Dev') {
+  //             agent none
+ //           steps {
+ //               input "Does the Dev environment look ok?"
+  //          }
+ //       }
   
       stage('Deploy Dev') {
             steps {
@@ -61,9 +61,7 @@ pipeline {
             script {
           withCredentials([ string(credentialsId: 'kubeconfig', variable: 'kubeconfig') ]) {
             print 'kubeconfig=' + kubeconfig
-		  sh "echo $kubeconfig > demofile"
-		  sh "cat demofile"
-		  sh  "base64 demofile > kubeconfig"
+		  sh 'echo  $kubeconfig | base64 > kubeconfig'
 		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=kubeconfig"
           }
         }
