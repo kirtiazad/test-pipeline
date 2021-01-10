@@ -10,9 +10,9 @@ pipeline {
   }
   stages {
 	
-    stage('Build') {
+    stage('compile') {
       steps {  // no container directive is needed as the maven container is the default
-        sh "mvn clean package"   
+        sh "mvn clean compile"   
 
       }
       
@@ -22,8 +22,12 @@ pipeline {
                 sh 'mvn test'
             }
         }
-
-    stage('Deploy Image') {
+    stage('package') {
+      steps {  // no container directive is needed as the maven container is the default
+        sh "mvn clean package"  
+    }
+  }
+    stage('Push Image') {
       steps{
 	container('docker') {
 		script{
@@ -38,10 +42,11 @@ pipeline {
         }
       }
     }
-	              stage('Sanity check') {
+	            
+      stage('Deploy Dev') {
                agent none
             steps {
-                input "Does the staging environment look ok?"
+                input "Does the Dev environment look ok?"
             }
         }
   }
