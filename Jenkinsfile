@@ -60,12 +60,13 @@ pipeline {
 		    container('maven') {
             script {
           withCredentials([ string(credentialsId: 'kubeconfig', variable: 'kubeconfig') ]) {
-		  sh """sed -i 's/${buildnumber}/\$BUILD_NUMBER/g' ./overlays/staging/kustomization.yaml"""
 		  sh 'echo  $kubeconfig | sed "s/ //g" | base64 --decode > config'
 		  sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" && chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl'
-		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=config"
+		 
           
         }
+		  sh '''sed -i 's/${buildnumber}/\$BUILD_NUMBER/g' ./overlays/staging/kustomization.yaml'''
+		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=config"
 	    }
 		    }
             
