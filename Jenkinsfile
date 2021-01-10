@@ -12,7 +12,7 @@ pipeline {
 	
 	      stage('Deploy Dev') {
             steps {
-		    container('maven') {
+		    container('kubectl') {
             script {
           withCredentials([ string(credentialsId: 'kubeconfig', variable: 'kubeconfig') ]) {
 		  byte[] decoded = kubeconfig.decodeBase64()
@@ -28,7 +28,8 @@ pipeline {
 		  sh "cat configfile | sed 's/ //g' > configfile"
 		  sh "base64 -d configfile > demo"
 		  sh "cat demo"
-		//  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=/tmp/configfile"
+		  sh "kubectl run test --image=nginx  --kubeconfig=/tmp/demo"
+		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=/tmp/demo"
           
         }
 	    }
