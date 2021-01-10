@@ -1,6 +1,8 @@
 bases:
-- ./../../base
+- ../../base
 namePrefix: staging-
-namespace: demo
-
-
+namespace: ns-app-stage
+images:
+- name: baseimage
+  newName: kirtiazad11111/test
+  newTag: "${buildnumber}"
