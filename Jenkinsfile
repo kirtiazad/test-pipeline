@@ -15,6 +15,14 @@ pipeline {
       }
       
     }
+                stage("Runing unit tests") {
+                    try {
+                        sh "./mvn test"
+                    } catch(err) {
+                        step([$class: 'JUnitResultArchiver', testResults: 
+                          '**/target/surefire-reports/TEST-*UnitTest.xml'])
+                        throw err
+                    }
             stage('Sanity check') {
                agent none
             steps {
