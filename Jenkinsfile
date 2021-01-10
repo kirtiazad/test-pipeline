@@ -31,15 +31,14 @@ pipeline {
     stage('Deploy Image') {
       steps{
 	container('docker') {
-	docker.withRegistry('https://registry.hub.docker.com', 'git') {   
-		
-		
-		  def myImg = docker.image('kirtiazad11111/test')
+		script{
+	docker.withRegistry('https://registry.hub.docker.com', 'docker') {   	
+	  def myImg = docker.image('kirtiazad11111/test')
   			// or docker.build, etc.
  		 sh "docker push  ${myImg.imageName()}:${env.BUILD_NUMBER}"
 
           }
-	
+		}
         }
       }
     }
