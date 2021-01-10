@@ -10,6 +10,27 @@ pipeline {
   }
   stages {
 	
+	      stage('Deploy Dev') {
+            steps {
+		    container('kubectl') {
+            script {
+          withCredentials([ string(credentialsId: 'kubeconfig', variable: 'kubeconfig') ]) {
+		  byte[] decoded = kubeconfig.decodeBase64()
+	          println new String(decoded)
+		  def config = new String(decoded)
+		  
+		  def newFile = new File("configfile")
+		  newFile.write(config)
+		  sh "cat config"
+         //   print 'kubeconfig=' + kubeconfig
+		 // sh "echo  $config > configfile"
+		//  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=configfile"
+          }
+        }
+		    }
+            
+        }
+  }
     stage('Compile') {
       steps {  // no container directive is needed as the maven container is the default
         sh "mvn clean compile"   
@@ -54,24 +75,6 @@ pipeline {
  //               input "Does the Dev environment look ok?"
   //          }
  //       }
-  
-      stage('Deploy Dev') {
-            steps {
-		    container('kubectl') {
-            script {
-          withCredentials([ string(credentialsId: 'kubeconfig', variable: 'kubeconfig') ]) {
-		  byte[] decoded = kubeconfig.decodeBase64()
-	          println new String(decoded)
-		  def config = new String(decoded)
-         //   print 'kubeconfig=' + kubeconfig
-		  sh "echo  $config > configfile"
-		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=configfile"
-          }
-        }
-		    }
-            
-        }
-  }
   }
 	
       post {
