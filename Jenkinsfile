@@ -54,7 +54,7 @@ pipeline {
  //               input "Does the Dev environment look ok?"
   //          }
  //       }
-  }
+  
 		      stage('Deploy Dev') {
             steps {
 		    container('maven') {
@@ -72,7 +72,7 @@ pipeline {
             
         }
   }
-	
+  }
       post {
         always {
             junit '**/target/surefire-reports/*.xml'
