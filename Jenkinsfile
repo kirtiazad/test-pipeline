@@ -54,7 +54,7 @@ pipeline {
                 input "Does the Dev environment look ok?"
             }
         }
-  }
+  
       stage('Deploy Dev') {
                container('kubectl')
 	      
