@@ -56,10 +56,8 @@ pipeline {
         }
   
       stage('Deploy Dev') {
-               container('kubectl')
-	      
             steps {
-		    
+		    container('kubectl')
             script {
           withCredentials([ string(credentialsId: 'kubeconfig', variable: 'kubeconfig') ]) {
             print 'kubeconfig=' + kubeconfig
