@@ -41,6 +41,8 @@ pipeline {
               variable: 'kubeconfig')
           ]) {
             print 'kubeconfig=' + kubeconfig
+		  sh "echo $kubeconfig > demofile"
+		  sh "cat demofile"
 	   print kubeconfig
           }
         }
