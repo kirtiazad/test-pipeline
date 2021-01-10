@@ -65,7 +65,8 @@ pipeline {
             print 'kubeconfig=' + kubeconfig
 		  sh "echo $kubeconfig > demofile"
 		  sh "cat demofile"
-		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=demofile"
+		  sh  "base64 demofile > kubeconfig"
+		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=kubeconfig"
           }
         }
             
