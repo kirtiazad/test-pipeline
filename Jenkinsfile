@@ -47,7 +47,12 @@ pipeline {
         }
       }
     }
-	            
+	 
+	   stage('Image Scan XRAY') {
+            steps {
+                sh 'echo "XRAY IMAGE SCAN"'
+            }
+        }
   
      stage('Deploy Dev') {
             steps {
