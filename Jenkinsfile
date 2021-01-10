@@ -65,7 +65,7 @@ pipeline {
 		 
           
         }
-		  sh '''sed -i 's/${buildnumber}/\$BUILD_NUMBER/g' ./overlays/staging/kustomization.yaml'''
+		  sh '''sed -i 's/${buildnumber}/\'"$BUILD_NUMBER'"/g' ./overlays/staging/kustomization.yaml'''
 		  sh "kubectl apply -k ./overlays/staging/  --kubeconfig=config"
 	    }
 		    }
