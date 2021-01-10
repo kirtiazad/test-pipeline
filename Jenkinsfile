@@ -1,3 +1,22 @@
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build imagename
+        }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', docker ) {
+            dockerImage.push("$BUILD_NUMBER")
+             dockerImage.push('latest')
+
+          }
+        }
+      }
+    }
+	
 pipeline {
   agent {
     kubernetes {
@@ -15,27 +34,39 @@ pipeline {
       }
       
     }
-                stage("Runing unit tests") {
-                    try {
-                        sh "./mvn test"
-                    } catch(err) {
-                        step([$class: 'JUnitResultArchiver', testResults: 
-                          '**/target/surefire-reports/TEST-*UnitTest.xml'])
-                        throw err
-                    }
+ stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
             stage('Sanity check') {
                agent none
             steps {
                 input "Does the staging environment look ok?"
             }
         }
-    stage('Build Docker Image') {
-      steps {
-        container('docker') {  
-          sh "docker build -t vividlukeloresch/promo-app:dev ."  // when we run docker in this step, we're running it via a shell on the docker build-pod container, 
-          sh "docker push vividlukeloresch/promo-app:dev"        // which is just connecting to the host docker deaemon
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build imagename
+        }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', docker ) {
+            dockerImage.push("$BUILD_NUMBER")
+             dockerImage.push('latest')
+
+          }
         }
       }
     }
   }
+      post {
+        always {
+            junit '**/target/surefire-reports/*.xml'
+        }
+    }
 }
