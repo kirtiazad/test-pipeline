@@ -10,7 +10,7 @@ pipeline {
   }
   stages {
 	
-    stage('compile') {
+    stage('Compile') {
       steps {  // no container directive is needed as the maven container is the default
         sh "mvn clean compile"   
 
@@ -22,7 +22,12 @@ pipeline {
                 sh 'mvn test'
             }
         }
-    stage('package') {
+ stage('Static Code Analysis') {
+            steps {
+                sh 'echo "sonarqube"'
+            }
+        }
+    stage('Package') {
       steps {  // no container directive is needed as the maven container is the default
         sh "mvn clean package"  
     }
