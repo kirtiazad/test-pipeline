@@ -22,12 +22,7 @@ pipeline {
                 sh 'mvn test'
             }
         }
-            stage('Sanity check') {
-               agent none
-            steps {
-                input "Does the staging environment look ok?"
-            }
-        }
+
     stage('Deploy Image') {
       steps{
 	container('docker') {
@@ -43,7 +38,14 @@ pipeline {
         }
       }
     }
+	              stage('Sanity check') {
+               agent none
+            steps {
+                input "Does the staging environment look ok?"
+            }
+        }
   }
+	
       post {
         always {
             junit '**/target/surefire-reports/*.xml'
