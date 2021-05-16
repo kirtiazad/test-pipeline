@@ -5,4 +5,4 @@ namespace: ns-pif-dev
 images:
 - name: baseimage
   newName: kirtiazad11111/test
-  newTag: ${buildnumber}
+  newTag: "145"
